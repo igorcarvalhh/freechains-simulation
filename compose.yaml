@@ -1,0 +1,28 @@
+services:
+  # Reputação de honestos e desonestos numa rede Graphviz (README.md). Os primeiros
+  # PIONEERS nós do .dot são pioneiros; os demais entram por beg. Ciclos de sync em ordem aleatória.
+  #   - src/ montado: editar simul.sh, lib/ ou .dot não exige rebuild
+  #   - TOPOLOGY é relativo a src/ (ex.: topologias/linha.dot)
+  #   - resultados em ./output/<data-hora>/
+  # Uso: docker compose run --rm sim
+  #      TOPOLOGY=topologias/linha.dot CYCLES=50 SEED=7 docker compose run --rm sim
+  sim:
+    build: .
+    working_dir: /opt/src
+    network_mode: none
+    environment:
+      TOPOLOGY: ${TOPOLOGY:-topologias/default.dot}
+      CYCLES: ${CYCLES:-100}
+      SEED: ${SEED:-42}
+      PIONEERS: ${PIONEERS:-5}
+      DISHONEST: ${DISHONEST:-2}
+      SHOW_CYCLES: ${SHOW_CYCLES:-0}
+      FULL_LOG: ${FULL_LOG:-0}
+      WORK: /work/topo
+      OUT: /out
+    tmpfs:
+      - /work:exec,size=${TOPO_TMPFS_SIZE:-2g}
+    volumes:
+      - ./src:/opt/src:ro
+      - ./output:/out
+    command: ["bash", "/opt/src/simul.sh"]

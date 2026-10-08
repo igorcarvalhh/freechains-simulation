@@ -1,0 +1,7 @@
+// pioneiro no centro: diâmetro 2
+graph estrela {
+  n0 -- n1;
+  n0 -- n2;
+  n0 -- n3;
+  n0 -- n4;
+}

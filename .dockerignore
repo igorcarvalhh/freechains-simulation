@@ -1,0 +1,3 @@
+# não enviar chaves nem resultados para o contexto de build
+.ssh
+output
